@@ -32,10 +32,11 @@ laser_rect = laser_surf.get_frect(bottomleft = (20,WINDOW_HEIGHT - 20))
 
 star_positions = [(randint(0,WINDOW_WIDTH),randint(0,WINDOW_HEIGHT)) for i in range(20)]
 
-player_direction = pygame.math.Vector2(2,-1)
-player_speed = 10
+player_direction = pygame.math.Vector2(1,0)
+player_speed = 300
 while running:
-    clock.tick(60)
+    dt = clock.tick(60) / 1000
+    
     # event loop 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -54,7 +55,7 @@ while running:
     display_surface.blit(meteor_surf,meteor_rect)
     
     
-    player_rect.center += player_direction * player_speed
+    player_rect.center += player_direction * player_speed * dt
     display_surface.blit(player_surf,player_rect)
     
 

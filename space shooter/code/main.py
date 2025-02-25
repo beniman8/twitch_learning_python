@@ -15,7 +15,8 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, *groups):
         super().__init__(*groups)
-        self.image = pygame.image.load(path).convert_alpha()
+        self.original_surf = pygame.image.load(path).convert_alpha()
+        self.image = self.original_surf
         self.rect = self.image.get_frect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
         self.direction = pygame.Vector2()
         self.speed = 300
@@ -24,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.can_shoot = True
         self.laser_shoot_time = 0
         self.cooldown_duration = 400
-        
+
 
 
     def laser_timer(self):
@@ -51,6 +52,7 @@ class Player(pygame.sprite.Sprite):
             self.laser_shoot_time = pygame.time.get_ticks()
 
         self.laser_timer()
+        
 
 
 class Star(pygame.sprite.Sprite):
@@ -80,18 +82,26 @@ class Meteor(pygame.sprite.Sprite):
 
     def __init__(self, surf, pos, groups):
         super().__init__(groups)
-        self.image = surf
+        self.original_surf = surf
+        self.image = self.original_surf
         self.rect = self.image.get_frect(center=pos)
         self.created_time = pygame.time.get_ticks()
         self.death_time = 3000
         self.direction = pygame.Vector2(uniform(-0.5, 0.5), 1)
         self.speed = randint(400, 500)
+        self.rotation_speed = randint(20,50)
+        self.rotation = 0
 
 
     def update(self, dt):
         self.rect.center += self.direction * self.speed * dt
         if pygame.time.get_ticks() - self.created_time >= self.death_time:
             self.kill()
+        
+        # continuous rotation 
+        self.rotation += self.rotation_speed * dt
+        self.image = pygame.transform.rotozoom(self.original_surf,self.rotation,1)
+        self.rect = self.image.get_frect(center = self.rect.center)
 
 
 def display_score():

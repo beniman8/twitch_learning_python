@@ -126,6 +126,7 @@ def display_score():
     text_rect = text_surf.get_frect(midbottom = (WINDOW_WIDTH / 2,WINDOW_HEIGHT -50))
     display_surface.blit(text_surf,text_rect)
     pygame.draw.rect(display_surface,'red',text_rect.inflate(20,10).move(0,-8),3,10)
+    
 def collision():
     global running
     collided_sprites = pygame.sprite.spritecollide(player, meteor_sprites, True,pygame.sprite.collide_mask)
@@ -187,6 +188,8 @@ meteor_event = pygame.event.custom_type()
 pygame.time.set_timer(meteor_event, 500)
 
 game_music.play(loops=-1)
+
+#game loop
 while running:
     dt = clock.tick() / 1000
 
@@ -208,10 +211,7 @@ while running:
 
     all_sprites.draw(display_surface)
     display_score()
-    
-    
-    #draw test rect(surface, color, rect, width=0, border_radius=0, border_top_left_radius=-1, border_top_right_radius=-1, border_bottom_left_radius=-1, border_bottom_right_radius=-1)
-   
+
 
     pygame.display.update()
 

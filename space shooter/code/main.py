@@ -90,12 +90,20 @@ class Meteor(pygame.sprite.Sprite):
             self.kill()
 
 
+def display_score():
+    current_time = pygame.time.get_ticks() // 100
+    text_surf = font.render(str(current_time),True,(240,240,240))
+    text_rect = text_surf.get_frect(midbottom = (WINDOW_WIDTH / 2,WINDOW_HEIGHT -50))
+    display_surface.blit(text_surf,text_rect)
+    pygame.draw.rect(display_surface,'red',text_rect.inflate(20,10).move(0,-8),3,10)
 def collision():
     global running
     collided_sprites = pygame.sprite.spritecollide(player, meteor_sprites, False)
 
     if collided_sprites:
-        running = False
+        pass
+        # running = False
+        
     for laser in laser_sprites:
 
         collided_sprites = pygame.sprite.spritecollide(laser, meteor_sprites, True)
@@ -112,6 +120,8 @@ path = join("images", "player.png")
 star_path = join("images", "star.png")
 meteor_path = join("images", "meteor.png")
 laser_path = join("images", "laser.png")
+font = pygame.font.Font(join("images", "Oxanium-Bold.ttf"),40)
+text_surf = font.render('text',True,(255,255,255))
 
 
 # surface
@@ -152,9 +162,14 @@ while running:
     collision()
 
     # draw the game
-    display_surface.fill("dark grey")
+    display_surface.fill("#3a2e3f")
 
     all_sprites.draw(display_surface)
+    display_score()
+    
+    
+    #draw test rect(surface, color, rect, width=0, border_radius=0, border_top_left_radius=-1, border_top_right_radius=-1, border_bottom_left_radius=-1, border_bottom_right_radius=-1)
+   
 
     pygame.display.update()
 

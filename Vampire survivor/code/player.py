@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_frect(center=pos)
-        self.hitbox_rect = self.rect.inflate(-60,0)
+        self.hitbox_rect = self.rect.inflate(-60,-90)
         
         # movement
         self.direction = pygame.Vector2()

@@ -13,5 +13,12 @@ class AllSprites(pygame.sprite.Group):
         self.offset.x = -(target_pos[0] -  WINDOW_WIDTH / 2)
         self.offset.y = -(target_pos[1] -  WINDOW_HEIGHT / 2)
         
-        for sprite in self:
-            self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)
+        #generate the sprites depending on if it is the ground or everything else
+        ground_sprites = [sprite for sprite in self if hasattr(sprite,'ground')]
+        object_sprites = [sprite for sprite in self if not hasattr(sprite,'ground')]
+        
+        for layer in [ground_sprites,object_sprites]:
+            #we are displaying or drawing all our sprites
+            #we are sorting when to display the sprite depending on its Y position
+            for sprite in sorted(layer, key = lambda sprite:sprite.rect.centery):
+                self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)

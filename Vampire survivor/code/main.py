@@ -29,8 +29,7 @@ class Game:
         self.load_map()
 
         #sprites
-        self.player = Player(self.player_surf,(500,300),self.all_sprite,self.collision_sprites)
-        
+
         # run the game
         self.run_game()
         
@@ -47,8 +46,11 @@ class Game:
             
         for col in map.get_layer_by_name('Collisions'):
             CollisionSprite((col.x,col.y),pygame.Surface((col.width,col.height)),self.collision_sprites)
-            
-
+        for obj in map.get_layer_by_name('Entities'):
+            if obj.name == "Player":
+                # create the player only when you find the entity named Player
+                self.player = Player(self.player_surf,(obj.x,obj.y),self.all_sprite,self.collision_sprites)
+        
 
     def run_game(self):
         '''Game loop : run the game loop'''

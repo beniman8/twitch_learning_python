@@ -12,10 +12,7 @@ class Game:
         pygame.display.set_caption('Platformer')
         self.clock = pygame.time.Clock()
         self.running = True
-        
-        
-            
-            
+
 
         # groups 
         self.all_sprites = AllSprite()
@@ -28,10 +25,10 @@ class Game:
         
         
         # timers 
-        self.bee_timer = Timer(500,func=self.create_bee,autostart=True,repeat=False)
+        self.bee_timer = Timer(500,func=self.create_bee,autostart=True,repeat=True)
         
     def create_bee(self):
-                Bee(self.bee_frames,(randint(300,600),randint(300,600)), self.all_sprites)
+                Bee(frames=self.bee_frames,pos = (self.level_width + WINDOW_WIDTH,randint(0,self.level_height)),groups= self.all_sprites,speed=randint(300,500))
         
     def create_bullet(self,pos,direction):
         x = pos[0] + direction * 34 if direction == 1 else pos[0] + direction *34 - self.bullet_surf.get_width()
@@ -55,6 +52,10 @@ class Game:
 
     def setup(self):
         tmx_map = load_pygame(join('data','maps','world.tmx'))
+        self.level_width = tmx_map.width * TILE_SIZE
+        self.level_height = tmx_map.height * TILE_SIZE
+        
+        
         
         for x,y,image in tmx_map.get_layer_by_name('Main').tiles():
             Sprite((x*TILE_SIZE,y*TILE_SIZE), image,(self.all_sprites,self.collision_sprites))
@@ -68,7 +69,8 @@ class Game:
             if obj.name == "Player":
                 self.player = Player((obj.x,obj.y),self.all_sprites,self.collision_sprites,self.player_frames,self.create_bullet)
         #Bee(self.bee_frames,(500,600),self.all_sprites)
-        Worm(self.worm_frames,(700,600),self.all_sprites)
+            if obj.name == 'Worm':
+                Worm(self.worm_frames,pygame.FRect(obj.x,obj.y,obj.width,obj.height),self.all_sprites)
     def run(self):
         while self.running:
             dt = self.clock.tick(FRAMERATE) / 1000 

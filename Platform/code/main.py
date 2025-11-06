@@ -30,7 +30,7 @@ class Game:
         self.bee_timer = Timer(500,func=self.create_bee,autostart=True,repeat=True)
         
     def create_bee(self):
-                Bee(frames=self.bee_frames,pos = (self.level_width + WINDOW_WIDTH,randint(0,self.level_height)),groups= (self.all_sprites,self.enemy_sprites),speed=randint(300,500))
+                  Bee(frames=self.bee_frames,pos = (self.level_width + WINDOW_WIDTH,randint(0,self.level_height)),groups= (self.all_sprites,self.enemy_sprites),speed=randint(300,500))
         
     def create_bullet(self,pos,direction):
         x = pos[0] + direction * 34 if direction == 1 else pos[0] + direction *34 - self.bullet_surf.get_width()
